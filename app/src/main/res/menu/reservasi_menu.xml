@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/inProgress"
+        android:title="In Progress"
+        android:icon="@mipmap/ic_launcher_round"
+        />
+
+    <item android:id="@+id/history"
+        android:title="History"
+        android:icon="@mipmap/ic_launcher_round"
+        />
+
+</menu>

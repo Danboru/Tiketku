@@ -21,7 +21,10 @@
         </activity>
         <activity android:name=".tab_one.TabOne" />
         <activity android:name=".tab_two.TabTwo" />
-        <activity android:name=".tab_three.TabThree"></activity>
+        <activity android:name=".tab_three.TabThree" />
+        <activity android:name=".activity.PencarianPenerbangan" />
+        <activity android:name=".reservasi.InProgress" />
+        <activity android:name=".reservasi.History"></activity>
     </application>
 
 </manifest>

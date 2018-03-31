@@ -5,6 +5,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.androidnetworking.AndroidNetworking;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.eightstudio.www.tiketku.adapter.TabAdapterMain;
@@ -24,8 +26,5 @@ public class MainActivity extends AppCompatActivity {
         tabLayoutMain.setupWithViewPager(viewPagerMain);
 
     }
-
-
-
 
 }
