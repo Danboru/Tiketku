@@ -3,10 +3,7 @@ package id.eightstudio.www.tiketku.reservasi;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,8 +29,6 @@ import java.util.HashMap;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.eightstudio.www.tiketku.R;
-import id.eightstudio.www.tiketku.adapter.DataAdapter;
-import id.eightstudio.www.tiketku.tab_one.TabOne;
 import id.eightstudio.www.tiketku.utils.UriConfig;
 
 public class InProgress extends Fragment {
@@ -42,16 +37,10 @@ public class InProgress extends Fragment {
     ArrayList<HashMap<String, String>> jsonDataGet = new ArrayList<>();
     public static String LINK, transaksi_id, status, jumlah, keterangan, tanggal, tanggal2;
 
-    //DataAdapter dataAdapter;
-    //RecyclerView.LayoutManager layoutManagerMain;
-
 
     public static InProgress newInstance() {
         return new InProgress();
     }
-
-//    @BindView(R.id.recyclerViewMain)
-//    RecyclerView recyclerViewMain;
 
     @BindView(R.id.listTransaksi)
     ListView listViewTransaksiInProgress;
@@ -62,14 +51,7 @@ public class InProgress extends Fragment {
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.activity_in_progress, container, false);
         ButterKnife.bind(this, view);
 
-        getAllDataTransaksi("", view);
-
-//        dataAdapter = new DataAdapter(jsonDataGet);
-//        layoutManagerMain = new LinearLayoutManager(view.getContext());
-//        recyclerViewMain.setAdapter(dataAdapter);
-//        recyclerViewMain.setLayoutManager(layoutManagerMain);
-
-
+        getAllDataTransaksi("14", view);
 
         return view;
     }
@@ -77,7 +59,7 @@ public class InProgress extends Fragment {
     //GET Data dari Database melalui JSON
     public void getAllDataTransaksi(String idUser, final View view) {
 
-        AndroidNetworking.post(UriConfig.host + "/672014113v120180401/user/list_transaksi.php?idUser=" + idUser)
+        AndroidNetworking.post(UriConfig.host + "/672014113v120180401/transaksi/list.php?idUser=" + idUser)
                 .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
@@ -139,12 +121,9 @@ public class InProgress extends Fragment {
                 tanggal         = ((TextView) view.findViewById(R.id.text_tanggal)).getText().toString();
                 tanggal2        = ((TextView) view.findViewById(R.id.text_tanggal2)).getText().toString();
 
-                //Tampilkan popup
-                //ListMenu();
             }
         });
 
-        //swipe_refresh.setRefreshing(false);
     }
 
 }
