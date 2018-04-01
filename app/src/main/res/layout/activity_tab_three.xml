@@ -1,46 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".tab_three.TabThree"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/edtNamaUser"
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardViewSaldo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nama"
-        />
+        android:layout_margin="20dp"
+        app:cardCornerRadius="8dp"
+        >
 
-    <EditText
-        android:id="@+id/edtAlamatUser"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sisa Saldo"
+                android:textSize="20sp"
+                android:gravity="center"
+                />
+
+            <TextView
+                android:id="@+id/txtSaldo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Saldo"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:padding="10dp"
+                />
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <LinearLayout
+        android:id="@+id/dataDetailUser"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Alamat"
-        />
+        android:orientation="vertical"
+        android:padding="10dp"
+        android:layout_below="@+id/cardViewSaldo"
+        >
 
-    <EditText
-        android:id="@+id/edtTelpUser"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Telp"
-        />
+        <EditText
+            android:id="@+id/edtNamaUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nama"
+            />
+
+        <EditText
+            android:id="@+id/edtAlamatUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Alamat"
+            />
+
+        <EditText
+            android:id="@+id/edtEmailUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            />
+
+        <EditText
+            android:id="@+id/edtTelpUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Telp"
+            />
+
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/txtSaldo"
+        android:id="@+id/txtIdUseer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Saldo"
+        android:gravity="center"
+        android:text="672014113"
+        android:layout_below="@+id/dataDetailUser"
         />
 
     <Button
         android:id="@+id/btnUpdateDataUser"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Update Data"
+        android:layout_alignParentBottom="true"
         />
 
 
-</LinearLayout>
+</RelativeLayout>

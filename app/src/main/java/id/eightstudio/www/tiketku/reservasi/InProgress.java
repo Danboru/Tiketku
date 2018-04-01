@@ -1,31 +1,31 @@
 package id.eightstudio.www.tiketku.reservasi;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.eightstudio.www.tiketku.R;
@@ -35,14 +35,13 @@ public class InProgress extends Fragment {
 
     private static final String TAG = "InProgress";
     ArrayList<HashMap<String, String>> jsonDataGet = new ArrayList<>();
-    public static String transaksi_id, status, jumlah, keterangan, tanggal, tanggal2;
+
+    @BindView(R.id.listTransaksi)
+    ListView listViewTransaksiInProgress;
 
     public static InProgress newInstance() {
         return new InProgress();
     }
-
-    @BindView(R.id.listTransaksi)
-    ListView listViewTransaksiInProgress;
 
     @Nullable
     @Override
@@ -105,25 +104,40 @@ public class InProgress extends Fragment {
 
     //Adapter untuk data Transaksi In Progress
     private void Adapter(View view){
-        SimpleAdapter simpleAdapter = new SimpleAdapter(view.getContext() , jsonDataGet, R.layout.model_data,
-                new String[] { "idTransaksi", "namaUser", "jumlahTiket", "jamKeberangkatan", "jamTiba", "namaPesawat"},
-                new int[] {R.id.text_transaksi_id, R.id.text_status, R.id.text_jumlah, R.id.text_keterangan,
-                        R.id.text_tanggal, R.id.text_tanggal2});
+        SimpleAdapter simpleAdapter = new SimpleAdapter(view.getContext() , jsonDataGet, R.layout.model_data_inprogress,
+                new String[] { "namaPesawat", "jamKeberangkatan", "jamTiba"},
+                new int[] {R.id.txtNamaPesawatInProgress, R.id.txtJamBerangkat, R.id.txtJamTiba});
 
         listViewTransaksiInProgress.setAdapter(simpleAdapter);
+
         listViewTransaksiInProgress.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                transaksi_id    = ((TextView) view.findViewById(R.id.text_transaksi_id)).getText().toString();
-                status          = ((TextView) view.findViewById(R.id.text_status)).getText().toString();
-                jumlah          = ((TextView) view.findViewById(R.id.text_jumlah)).getText().toString();
-                keterangan      = ((TextView) view.findViewById(R.id.text_keterangan)).getText().toString();
-                tanggal         = ((TextView) view.findViewById(R.id.text_tanggal)).getText().toString();
-                tanggal2        = ((TextView) view.findViewById(R.id.text_tanggal2)).getText().toString();
-
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                showDetailTransaksi(position, view.getContext(), jsonDataGet);
             }
         });
 
+    }
+
+    //
+    private void showDetailTransaksi(final int posisi, final Context context, ArrayList<HashMap<String, String>> jsonDataGet) {
+        Dialog dialog = new Dialog(context);
+        //Set layout
+        dialog.setContentView(R.layout.popup_transaksi);
+
+        //Membuat agar dialog tidak hilang saat di click di area luar dialog
+        dialog.setCanceledOnTouchOutside(true);
+
+        //Membuat dialog agar berukuran responsive
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        int width = metrics.widthPixels;
+        dialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+        TextView txtNamaPesawat = dialog.findViewById(R.id.txtNamaPesawat);
+
+        txtNamaPesawat.setText(jsonDataGet.get(posisi).get("namaUser"));
+
+        dialog.show();
     }
 
 }

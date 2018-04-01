@@ -16,12 +16,10 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.eightstudio.www.tiketku.R;
@@ -147,11 +145,6 @@ public class TabOne extends Fragment {
 
             }
         });
-
-    }
-
-    public void tanggalKeberangkatan(View view) {
-
-    }
+        }
 
 }

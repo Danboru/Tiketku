@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:padding="10dp"
+    >
+
+    <TextView
+        android:id="@+id/txtIdPenerbangan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ID Penerbangan"
+        android:textSize="15sp"
+        android:layout_alignParentBottom="true"
+        />
+
+    <TextView
+        android:id="@+id/txtCodePesawat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Code Pesawat"
+        android:layout_alignParentRight="true"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:id="@+id/txtBandaraAsal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Asal"
+            android:textSize="25sp"
+            android:layout_margin="5dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="------"
+            />
+
+        <TextView
+            android:id="@+id/txtBandaraTujuan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tujuan"
+            android:textSize="25sp"
+            android:layout_margin="5dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/txtBandaraAsal"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

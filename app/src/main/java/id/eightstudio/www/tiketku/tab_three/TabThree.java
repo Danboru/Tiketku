@@ -3,7 +3,6 @@ package id.eightstudio.www.tiketku.tab_three;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,23 +12,18 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.eightstudio.www.tiketku.R;
-import id.eightstudio.www.tiketku.tab_one.TabOne;
 import id.eightstudio.www.tiketku.utils.DataTemp;
 import id.eightstudio.www.tiketku.utils.UriConfig;
 
@@ -48,10 +42,14 @@ public class TabThree extends Fragment implements View.OnClickListener {
     EditText edtNamaUser;
     @BindView(R.id.edtAlamatUser)
     EditText edtAlamatUser;
+    @BindView(R.id.edtEmailUser)
+    EditText edtEmailUser;
     @BindView(R.id.edtTelpUser)
     EditText edtTelpUser;
     @BindView(R.id.txtSaldo)
     TextView txtSaldo;
+    @BindView(R.id.txtIdUseer)
+    TextView txtIdUseer;
 
     @Nullable
     @Override
@@ -115,7 +113,11 @@ public class TabThree extends Fragment implements View.OnClickListener {
         edtNamaUser.setText(jsonDataUser.get(0).get("namaUser"));
         edtAlamatUser.setText(jsonDataUser.get(0).get("alamatUser"));
         edtTelpUser.setText(jsonDataUser.get(0).get("telpUser"));
+        edtTelpUser.setText(jsonDataUser.get(0).get("telpUser"));
+        edtEmailUser.setText(jsonDataUser.get(0).get("emailUser"));
         txtSaldo.setText(jsonDataUser.get(0).get("saldoUser"));
+        txtIdUseer.setText("ID : " + jsonDataUser.get(0).get("idUser"));
+
     }
 
     @Override
@@ -135,7 +137,7 @@ public class TabThree extends Fragment implements View.OnClickListener {
                 .addBodyParameter("namaUser", edtNamaUser.getText().toString())
                 .addBodyParameter("alamatUser", edtAlamatUser.getText().toString())
                 .addBodyParameter("saldoUser", jsonDataUser.get(0).get("saldoUser"))
-                .addBodyParameter("emailUser", jsonDataUser.get(0).get("emailUser"))
+                .addBodyParameter("emailUser", edtEmailUser.getText().toString())
                 .addBodyParameter("telpUser", edtTelpUser.getText().toString())
                 .setPriority(Priority.MEDIUM)
                 .build()
@@ -144,7 +146,6 @@ public class TabThree extends Fragment implements View.OnClickListener {
             public void onResponse(JSONObject response) {
                         // do anything with response
                         Log.d("response", response.toString());
-
 
                         if (response.optString("response").equals("success")) {
                             Toast.makeText(view.getContext(), "Perubahan berhasil disimpan",
