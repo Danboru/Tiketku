@@ -2,22 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item android:id="@+id/menuSatu"
-        android:title="Tester"
+    <item
+        android:id="@+id/menuSatu"
         android:icon="@mipmap/ic_launcher_round"
-        app:showAsAction="always"
-        />
+        android:title="Tester"
+        app:showAsAction="always" />
 
-    <item android:id="@+id/menuDua"
-        android:title="Tester"
+    <item
+        android:id="@+id/menuDua"
         android:icon="@mipmap/ic_launcher_round"
-        app:showAsAction="never"
-        />
+        android:title="Tester"
+        app:showAsAction="never" />
 
-    <item android:id="@+id/menuTiga"
-        android:title="Tester"
+    <item
+        android:id="@+id/menuTiga"
         android:icon="@mipmap/ic_launcher_round"
-        app:showAsAction="never"
-        />
+        android:title="Tester"
+        app:showAsAction="never" />
 
 </menu>

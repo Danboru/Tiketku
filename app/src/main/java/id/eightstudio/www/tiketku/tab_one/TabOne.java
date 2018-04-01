@@ -2,7 +2,6 @@ package id.eightstudio.www.tiketku.tab_one;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -19,7 +18,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
@@ -41,7 +39,6 @@ import butterknife.ButterKnife;
 import id.eightstudio.www.tiketku.R;
 import id.eightstudio.www.tiketku.activity.PencarianPenerbangan;
 import id.eightstudio.www.tiketku.utils.CurrentDate;
-import id.eightstudio.www.tiketku.utils.DataTemp;
 import id.eightstudio.www.tiketku.utils.UriConfig;
 
 public class TabOne extends Fragment {
@@ -142,7 +139,6 @@ public class TabOne extends Fragment {
     }
 
     public void destinationBandara(View view) {
-
         ArrayAdapter<String> adapterDestination = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, categories);
         adapterDestination.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerBadaraTujuan.setAdapter(adapterDestination);
@@ -171,7 +167,6 @@ public class TabOne extends Fragment {
 
             categories.add(jsonDataBandara.get(i).get("namaBandara"));
         }
-
     }
 
     public void getDataBandara(String response) {
@@ -213,7 +208,6 @@ public class TabOne extends Fragment {
                         Log.d(TAG, "onError: " + "Gagal Mengambil JSON");
                     }
                 });
-
     }
 
 }

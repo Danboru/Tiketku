@@ -1,77 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:padding="10dp"
-    >
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/txtKeberangkatan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="00:00"
-        android:textSize="15sp"
         android:layout_alignParentBottom="true"
-        />
+        android:text="00:00"
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/txtTiba"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="00:00"
-        android:textSize="15sp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        />
+        android:text="00:00"
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/txtNamaPesawat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nama Pesawat"
-        />
+        android:text="Nama Pesawat" />
 
     <TextView
         android:id="@+id/txtHargaTiket"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Harga Tiket"
         android:layout_alignParentRight="true"
-        />
+        android:text="Harga Tiket" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:gravity="center"
-        >
+        android:gravity="center">
 
         <TextView
             android:id="@+id/txtBandaraAsal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Asal"
-            android:textSize="15sp"
             android:layout_margin="5dp"
-            />
+            android:text="Asal"
+            android:textSize="15sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="------"
-            />
+            android:text="------" />
 
         <TextView
             android:id="@+id/txtBandaraTujuan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tujuan"
-            android:textSize="15sp"
-            android:layout_margin="5dp"
             android:layout_centerVertical="true"
+            android:layout_margin="5dp"
             android:layout_toRightOf="@+id/txtBandaraAsal"
-            />
+            android:text="Tujuan"
+            android:textSize="15sp" />
 
     </LinearLayout>
 

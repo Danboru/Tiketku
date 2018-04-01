@@ -10,18 +10,16 @@
         android:id="@+id/frameLayoutReservasi"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottomMenuReservasi"
-        />
+        android:layout_above="@+id/bottomMenuReservasi" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottomMenuReservasi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/reservasi_menu"
-        app:itemTextColor="@android:color/white"
+        android:background="@color/colorPrimary"
         app:itemIconTint="@android:color/white"
-        />
+        app:itemTextColor="@android:color/white"
+        app:menu="@menu/reservasi_menu" />
 
 </RelativeLayout>
