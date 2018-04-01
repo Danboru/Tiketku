@@ -77,6 +77,7 @@ public class TabOne extends Fragment {
         this.view = LayoutInflater.from(container.getContext()).inflate(R.layout.activity_tab_one, container, false);
         ButterKnife.bind(this, view);
 
+        categories.clear();
         //Generate data bandara
         generateDataBandara();
         //Set bandaraAsal
@@ -174,7 +175,7 @@ public class TabOne extends Fragment {
     }
 
     public void getDataBandara(String response) {
-        AndroidNetworking.post(UriConfig.host + "/672014113v120180401/bandara/list_bandara"+response+".php")
+        AndroidNetworking.post(UriConfig.host + "/672014113v120180401/bandara/list_bandara" + response + ".php")
                 .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
