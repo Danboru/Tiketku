@@ -7,19 +7,36 @@
     >
 
     <TextView
-        android:id="@+id/txtIdPenerbangan"
+        android:id="@+id/txtKeberangkatan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ID Penerbangan"
+        android:text="00:00"
         android:textSize="15sp"
         android:layout_alignParentBottom="true"
         />
 
     <TextView
-        android:id="@+id/txtCodePesawat"
+        android:id="@+id/txtTiba"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Code Pesawat"
+        android:text="00:00"
+        android:textSize="15sp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        />
+
+    <TextView
+        android:id="@+id/txtNamaPesawat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nama Pesawat"
+        />
+
+    <TextView
+        android:id="@+id/txtHargaTiket"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Harga Tiket"
         android:layout_alignParentRight="true"
         />
 
@@ -35,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Asal"
-            android:textSize="25sp"
+            android:textSize="15sp"
             android:layout_margin="5dp"
             />
 
@@ -50,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Tujuan"
-            android:textSize="25sp"
+            android:textSize="15sp"
             android:layout_margin="5dp"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/txtBandaraAsal"

@@ -80,7 +80,7 @@ public class PencarianPenerbangan extends AppCompatActivity {
             public void onRefresh() {
                 jsonDataGet.clear();
 
-                getAllDataPenerbanganBySearch(parentLayout, "1", "3");
+                getAllDataPenerbanganBySearch(parentLayout, dataBandaraAsal, dataBandaraTujuan);
                 Adapter();
 
                 onItemsLoadComplete(parentLayout);
@@ -88,7 +88,7 @@ public class PencarianPenerbangan extends AppCompatActivity {
         });
 
         //Get All data
-        getAllDataPenerbanganBySearch(parentLayout, "1", "3");
+        getAllDataPenerbanganBySearch(parentLayout, dataBandaraAsal, dataBandaraTujuan);
 
     }
 
@@ -105,11 +105,11 @@ public class PencarianPenerbangan extends AppCompatActivity {
     }
 
     //GET Data dari database melalui JSON
-    public void getAllDataPenerbanganBySearch(final View view, String idBandaraTujuan, String idBandaraDestinasi) {
+    public void getAllDataPenerbanganBySearch(final View view, String idBandaraDestinasi, String idBandaraOrigin) {
         AndroidNetworking.post(UriConfig.host + "/672014113v120180401/penerbangan/filter_penerbangan.php")
                 .setPriority(Priority.MEDIUM)
-                .addBodyParameter("bandaraTujuan", idBandaraTujuan)
-                .addBodyParameter("bandaraAsal", idBandaraDestinasi)
+                .addBodyParameter("bandaraTujuan", idBandaraDestinasi)
+                .addBodyParameter("bandaraAsal", idBandaraOrigin)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
@@ -126,14 +126,15 @@ public class PencarianPenerbangan extends AppCompatActivity {
 
                                     map.put("idPenerbangan", responses.optString("idPenerbangan"));
                                     map.put("codePesawat", responses.optString("codePesawat"));
+                                    map.put("namaPesawat", responses.optString("namaPesawat"));
                                     map.put("idTujuan", responses.optString("idTujuan"));
                                     map.put("idBerangkat", responses.optString("idBerangkat"));
-                                    map.put("harga", responses.optString("harga"));
+                                    map.put("harga", "Rp." + responses.optString("harga"));
                                     map.put("tanggalPenerbangan", responses.optString("tanggalPenerbangan"));
                                     map.put("jamBerangkat", responses.optString("jamBerangkat"));
                                     map.put("jamTiba", responses.optString("jamTiba"));
-                                    map.put("banAsal", responses.optString("From"));
-                                    map.put("banTujuan", responses.optString("To"));
+                                    map.put("From", responses.optString("From"));
+                                    map.put("To", responses.optString("To"));
 
                                     jsonDataGet.add(map);
                                 }
@@ -160,8 +161,8 @@ public class PencarianPenerbangan extends AppCompatActivity {
 
     private void Adapter() {
         SimpleAdapter simpleAdapter = new SimpleAdapter(PencarianPenerbangan.this, jsonDataGet, R.layout.model_data_penerbangan,
-                new String[]{"idPenerbangan", "codePesawat", "idBerangkat", "idTujuan"},
-                new int[]{R.id.txtIdPenerbangan, R.id.txtCodePesawat, R.id.txtBandaraAsal, R.id.txtBandaraTujuan});
+                new String[]{"namaPesawat", "harga", "From", "To", "jamBerangkat", "jamTiba"},
+                new int[]{R.id.txtNamaPesawat, R.id.txtHargaTiket, R.id.txtBandaraAsal, R.id.txtBandaraTujuan, R.id.txtKeberangkatan, R.id.txtTiba});
 
         listHasilFilter.setAdapter(simpleAdapter);
 

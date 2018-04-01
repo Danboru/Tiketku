@@ -2,10 +2,13 @@ package id.eightstudio.www.tiketku.tab_one;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.nfc.Tag;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,9 +21,19 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -28,7 +41,8 @@ import butterknife.ButterKnife;
 import id.eightstudio.www.tiketku.R;
 import id.eightstudio.www.tiketku.activity.PencarianPenerbangan;
 import id.eightstudio.www.tiketku.utils.CurrentDate;
-
+import id.eightstudio.www.tiketku.utils.DataTemp;
+import id.eightstudio.www.tiketku.utils.UriConfig;
 
 public class TabOne extends Fragment {
 
@@ -43,6 +57,12 @@ public class TabOne extends Fragment {
     @BindView(R.id.ibDatePicker)
     ImageButton ibDatePicker;
 
+    ArrayList<HashMap<String, String>> jsonDataBandara = new ArrayList<>();
+    HashMap<String, String> dataIdBandara = new HashMap<>();
+    List<String> categories = new ArrayList<>();
+    private static final String TAG = "TabOne";
+    View view;
+
     private DatePickerDialog datePickerDialog;
     String dataKeberangkatan, bandaraAsal, bandaraTujuan;
     public static final String KEY_EXTRA = "id.eightstudio.www.tiketku.tab_one";
@@ -54,11 +74,13 @@ public class TabOne extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(container.getContext()).inflate(R.layout.activity_tab_one, container, false);
+        this.view = LayoutInflater.from(container.getContext()).inflate(R.layout.activity_tab_one, container, false);
         ButterKnife.bind(this, view);
 
+        //Generate data bandara
+        generateDataBandara();
         //Set bandaraAsal
-        originBadara(view);
+        originBandara(view);
         //Set bandaraTujuan
         destinationBandara(view);
 
@@ -81,6 +103,7 @@ public class TabOne extends Fragment {
             }
         });
 
+        //Cari Penerbangan Berdasarkan badara asal dan bandara tujuan
         btnCariRutePenerbangan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,6 +111,7 @@ public class TabOne extends Fragment {
 
                 //Put data extra
                 intentHasilPencarian.putExtra(KEY_EXTRA, dataKeberangkatan + "/" + bandaraAsal + "/" + bandaraTujuan);
+                Log.d(TAG, "onClick: " + dataKeberangkatan + "/" + bandaraAsal + "/" + bandaraTujuan);
                 startActivity(intentHasilPencarian);
             }
         });
@@ -95,16 +119,7 @@ public class TabOne extends Fragment {
         return view;
     }
 
-    public void originBadara(View view) {
-
-        //List Badara asal (Seharusnya datanya di ambil dari hasil select di table bandara)
-        List<String> categories = new ArrayList<>();
-        categories.add("Automobile");
-        categories.add("Business Services");
-        categories.add("Computers");
-        categories.add("Education");
-        categories.add("Personal");
-        categories.add("Travel");
+    public void originBandara(View view) {
 
         ArrayAdapter<String> adapterOrigin = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, categories);
         adapterOrigin.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -115,7 +130,7 @@ public class TabOne extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View parent, int position, long l) {
                 // On selecting a spinner item
-                bandaraAsal = adapterView.getItemAtPosition(position).toString();
+                bandaraAsal = dataIdBandara.get(adapterView.getItemAtPosition(position).toString());
             }
 
             @Override
@@ -123,19 +138,11 @@ public class TabOne extends Fragment {
 
             }
         });
-
     }
 
     public void destinationBandara(View view) {
 
-        //List Badara tujuan (Seharusnya datanya di ambil dari hasil select di table bandara)
-        List<String> categories2 = new ArrayList<>();
-        categories2.add("Automobile");
-        categories2.add("Business Services");
-        categories2.add("Computers");
-        categories2.add("Education");
-
-        ArrayAdapter<String> adapterDestination = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, categories2);
+        ArrayAdapter<String> adapterDestination = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, categories);
         adapterDestination.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerBadaraTujuan.setAdapter(adapterDestination);
 
@@ -143,7 +150,7 @@ public class TabOne extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View parent, int position, long l) {
                 // On selecting a spinner item
-                bandaraTujuan = adapterView.getItemAtPosition(position).toString();
+                bandaraTujuan = dataIdBandara.get(adapterView.getItemAtPosition(position).toString());
             }
 
             @Override
@@ -151,6 +158,61 @@ public class TabOne extends Fragment {
 
             }
         });
+    }
+
+    public void generateDataBandara() {
+        getDataBandara("Tujuan");
+        for (int i = 0; i < jsonDataBandara.size(); i++) {
+            Log.d(TAG, "originBandara: " + jsonDataBandara.get(i).get("namaBandara"));
+
+            //Menyimpan id bandara dengan key nama bandara
+            dataIdBandara.put(jsonDataBandara.get(i).get("namaBandara"), jsonDataBandara.get(i).get("idBandara"));
+
+            categories.add(jsonDataBandara.get(i).get("namaBandara"));
+        }
+
+    }
+
+    public void getDataBandara(String response) {
+        AndroidNetworking.post(UriConfig.host + "/672014113v120180401/bandara/list_bandara"+response+".php")
+                .setPriority(Priority.MEDIUM)
+                .build()
+                .getAsJSONObject(new JSONObjectRequestListener() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        jsonDataBandara.clear();
+
+                        try {
+                            if (response.optString("status").equals("true")) {
+                                JSONArray jsonArray = response.optJSONArray("result");
+
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject responses = jsonArray.getJSONObject(i);
+                                    HashMap<String, String> map = new HashMap<>();
+
+                                    map.put("idBerangkat", responses.optString("idBerangkat"));
+                                    map.put("idBandara", responses.optString("idBandara"));
+                                    map.put("namaBandara", responses.optString("namaBandara"));
+
+                                    jsonDataBandara.add(map);
+                                }
+
+                                Log.d(TAG, "Main Data " + jsonDataBandara);
+
+                            } else {
+                                Snackbar.make(view, "Tidak Ada Data", Snackbar.LENGTH_SHORT).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onError(ANError anError) {
+                        Log.d(TAG, "onError: " + "Gagal Mengambil JSON");
+                    }
+                });
+
     }
 
 }
