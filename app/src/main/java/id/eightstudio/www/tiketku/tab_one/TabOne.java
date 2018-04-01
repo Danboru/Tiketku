@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 import java.text.DecimalFormat;
@@ -33,6 +34,8 @@ public class TabOne extends Fragment {
     @BindView(R.id.spinnerBandaraTujuan) Spinner spinnerBadaraTujuan;
     @BindView(R.id.btnCariRutePenerbangan) Button btnCariRutePenerbangan;
     @BindView(R.id.edtTanggalBerangkat) EditText edtTanggalBerangkat;
+    @BindView(R.id.ibDatePicker)
+    ImageButton ibDatePicker;
 
     private DatePickerDialog datePickerDialog;
     String dataKeberangkatan, bandaraAsal, bandaraTujuan;
@@ -52,8 +55,9 @@ public class TabOne extends Fragment {
         originBadara(view);
         //Set bandaraTujuan
         destinationBandara(view);
+
         //Set dataKeberangkatan
-        edtTanggalBerangkat.setOnClickListener(new View.OnClickListener() {
+        ibDatePicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 datePickerDialog = new DatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
@@ -70,7 +74,6 @@ public class TabOne extends Fragment {
                 datePickerDialog.show();
             }
         });
-
 
         btnCariRutePenerbangan.setOnClickListener(new View.OnClickListener() {
             @Override

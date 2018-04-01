@@ -1,31 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="140dp"
+    android:padding="10dp"
     >
 
     <TextView
         android:id="@+id/txtNamaPesawatInProgress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ID Transaksi"
-        android:layout_marginRight="10dp"        />
-
-    <TextView
-        android:id="@+id/txtJamBerangkat"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Nama Pesawat"
-        android:layout_alignParentBottom="true"
+        android:textSize="25sp"
+        android:layout_marginRight="10dp"
+        android:gravity="center"
         />
 
-
-    <TextView
-        android:id="@+id/txtJamTiba"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/labeelKeteerangan"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nama Pesawat"
-        android:layout_alignParentRight="true"
-        />
+        android:layout_below="@+id/txtNamaPesawatInProgress"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jam Keberangkatan"
+            android:textSize="10sp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="----"
+            android:layout_margin="10dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jam Sampai Tujuan"
+            android:textSize="10sp"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/labeelKeteerangan"
+        android:gravity="center"
+        >
+
+        <TextView
+            android:id="@+id/txtJamBerangkat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            android:textSize="25sp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="----"
+            android:layout_margin="10dp"
+            />
+
+        <TextView
+            android:id="@+id/txtJamTiba"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="00:00"
+            android:textSize="25sp"
+            />
+
+    </LinearLayout>
 
 </RelativeLayout>

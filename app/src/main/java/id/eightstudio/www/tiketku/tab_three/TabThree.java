@@ -2,6 +2,7 @@ package id.eightstudio.www.tiketku.tab_three;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,14 +57,14 @@ public class TabThree extends Fragment implements View.OnClickListener {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.activity_tab_three, container, false);
         ButterKnife.bind(this, view);
-        getDataUser("danangpriabada@gmail.com");
+        getDataUser("danangpriabada@gmail.com", view);
 
         btnUpdateDataUser.setOnClickListener(this);
 
         return view;
     }
 
-    public void getDataUser(String emailUser) {
+    public void getDataUser(String emailUser, final View view) {
         AndroidNetworking.post(UriConfig.host + "/672014113v120180401/user/info.php?emailUser=" + emailUser)
                 .setPriority(Priority.MEDIUM)
                 .build()
@@ -95,7 +96,7 @@ public class TabThree extends Fragment implements View.OnClickListener {
                                 Log.d(TAG, "Main Data " + jsonDataUser);
 
                             } else {
-                                Toast.makeText(getContext(), "Data Tidak Di temukan", Toast.LENGTH_SHORT).show();
+                                Snackbar.make(view, "Tidak Ada Data", Snackbar.LENGTH_SHORT).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -148,12 +149,10 @@ public class TabThree extends Fragment implements View.OnClickListener {
                         Log.d("response", response.toString());
 
                         if (response.optString("response").equals("success")) {
-                            Toast.makeText(view.getContext(), "Perubahan berhasil disimpan",
-                                    Toast.LENGTH_LONG).show();
+                            Snackbar.make(view, "Berhasil Di Simpan", Snackbar.LENGTH_SHORT).show();
                         } else {
                             Log.d(TAG, "onResponse: " + response.optString("response"));
-                            Toast.makeText(view.getContext(), "Gagal",
-                                    Toast.LENGTH_LONG).show();
+                            Snackbar.make(view, "Gagal Di Simpan", Snackbar.LENGTH_SHORT).show();
                         }
                     }
 

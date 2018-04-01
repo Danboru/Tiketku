@@ -4,8 +4,10 @@ import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,8 +38,11 @@ public class InProgress extends Fragment {
     private static final String TAG = "InProgress";
     ArrayList<HashMap<String, String>> jsonDataGet = new ArrayList<>();
 
+    Boolean statusResponse = false;
+
     @BindView(R.id.listTransaksi)
     ListView listViewTransaksiInProgress;
+    @BindView(R.id.swipeRefreshInProgress) SwipeRefreshLayout swipeRefreshInProgress;
 
     public static InProgress newInstance() {
         return new InProgress();
@@ -46,12 +51,42 @@ public class InProgress extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(container.getContext()).inflate(R.layout.activity_in_progress, container, false);
+        final View view = LayoutInflater.from(container.getContext()).inflate(R.layout.activity_in_progress, container, false);
         ButterKnife.bind(this, view);
+
+
+        //Set color
+        swipeRefreshInProgress.setColorSchemeResources(
+                R.color.colorPrimaryDark,
+                R.color.colorPrimaryDark,
+                R.color.colorPrimaryDark);
+
+        //Refresh Datalist
+        swipeRefreshInProgress.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                jsonDataGet.clear();
+
+                getAllDataTransaksi("14", view);
+                Adapter(view);
+
+                onItemsLoadComplete(view);
+            }
+        });
 
         getAllDataTransaksi("14", view);
 
         return view;
+    }
+
+    public void onItemsLoadComplete(View view) {
+        if ( statusResponse == false ) {
+            Snackbar.make(view, "Tidak Ada Data", Snackbar.LENGTH_SHORT).show();
+        } else {
+            Snackbar.make(view, "Up to Date", Snackbar.LENGTH_SHORT).show();
+        }
+
+        swipeRefreshInProgress.setRefreshing(false);
     }
 
     //GET Data dari Database melalui JSON
@@ -68,6 +103,8 @@ public class InProgress extends Fragment {
                         try {
                             if (response.optString("status").equals("true")) {
                                 JSONArray jsonArray = response.optJSONArray("result");
+
+                                statusResponse = true;
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject responses = jsonArray.getJSONObject(i);
@@ -133,9 +170,19 @@ public class InProgress extends Fragment {
         int width = metrics.widthPixels;
         dialog.getWindow().setLayout((6 * width) / 7, LinearLayout.LayoutParams.WRAP_CONTENT);
 
-        TextView txtNamaPesawat = dialog.findViewById(R.id.txtNamaPesawat);
+        TextView txtNamaUser, txtIdTransaksi, txtIdPenerbangan, txtJumlahTiket;
 
-        txtNamaPesawat.setText(jsonDataGet.get(posisi).get("namaUser"));
+        //Init View
+        txtNamaUser = dialog.findViewById(R.id.txtNamaUser);
+        txtIdTransaksi = dialog.findViewById(R.id.txtIdTransaksi);
+        txtIdPenerbangan = dialog.findViewById(R.id.txtIdPenerbangan);
+        txtJumlahTiket = dialog.findViewById(R.id.txtJumlahTiket);
+
+        //Set Data
+        txtNamaUser.setText(jsonDataGet.get(posisi).get("namaUser"));
+        txtIdTransaksi.setText(jsonDataGet.get(posisi).get("idTransaksi"));
+        txtIdPenerbangan.setText(jsonDataGet.get(posisi).get("idPenerbangan"));
+        txtJumlahTiket.setText(jsonDataGet.get(posisi).get("jumlahTiket"));
 
         dialog.show();
     }

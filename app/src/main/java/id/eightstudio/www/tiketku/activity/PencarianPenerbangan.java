@@ -2,6 +2,8 @@ package id.eightstudio.www.tiketku.activity;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -40,10 +42,14 @@ public class PencarianPenerbangan extends AppCompatActivity {
 
     ArrayList<HashMap<String, String>> jsonDataGet = new ArrayList<>();
 
+    Boolean statusReesponse = false;
+
     @BindView(R.id.toolbarMenuMain)
     Toolbar toolbarMain;
     @BindView(R.id.listHasilFilter)
     ListView listHasilFilter;
+    @BindView(R.id.swipeRefreshPeencarian)
+    SwipeRefreshLayout swipeRefreshLayoutPencarian;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +57,7 @@ public class PencarianPenerbangan extends AppCompatActivity {
         setContentView(R.layout.activity_pencarian_penerbangan);
         ButterKnife.bind(this);
         setSupportActionBar(toolbarMain);
+        final View parentLayout = findViewById(android.R.id.content);
 
         dataSetStringExtra = getIntent().getStringExtra(TabOne.KEY_EXTRA);
 
@@ -61,17 +68,46 @@ public class PencarianPenerbangan extends AppCompatActivity {
         dataBandaraTujuan = temp[2];
         Log.d(TAG, "onCreate: " + "Berangkat tanggal " + dataTanggalPencarian + " Dari " + dataBandaraAsal + " Ke " + dataBandaraTujuan);
 
-        //Get All data
-        getAllDataPenerbanganBySearch();
+        //Set color
+        swipeRefreshLayoutPencarian.setColorSchemeResources(
+                R.color.colorPrimaryDark,
+                R.color.colorPrimaryDark,
+                R.color.colorPrimaryDark);
 
+        //Refresh Datalist
+        swipeRefreshLayoutPencarian.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                jsonDataGet.clear();
+
+                getAllDataPenerbanganBySearch("1", "3");
+                Adapter();
+
+                onItemsLoadComplete(parentLayout);
+            }
+        });
+
+        //Get All data
+        getAllDataPenerbanganBySearch("1", "3");
+
+    };
+
+    public void onItemsLoadComplete(View view) {
+        if ( statusReesponse == false ) {
+            Snackbar.make(view, "Tidak Ada Data", Snackbar.LENGTH_SHORT).show();
+        } else {
+            Snackbar.make(view, "Up to Date", Snackbar.LENGTH_SHORT).show();
+        }
+
+        swipeRefreshLayoutPencarian.setRefreshing(false);
     }
 
     //GET Data dari database melalui JSON
-    public void getAllDataPenerbanganBySearch() {
+    public void getAllDataPenerbanganBySearch(String idBandaraTujuan, String idBandaraDestinasi) {
         AndroidNetworking.post(UriConfig.host + "/672014113v120180401/penerbangan/filter_penerbangan.php")
                 .setPriority(Priority.MEDIUM)
-                .addBodyParameter("bandaraTujuan", "1")
-                .addBodyParameter("bandaraAsal", "3")
+                .addBodyParameter("bandaraTujuan", idBandaraTujuan)
+                .addBodyParameter("bandaraAsal", idBandaraDestinasi)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
@@ -79,6 +115,7 @@ public class PencarianPenerbangan extends AppCompatActivity {
 
                         try {
                             if (response.optString("status").equals("true")) {
+                                statusReesponse = true;
                                 JSONArray jsonArray = response.optJSONArray("result");
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
