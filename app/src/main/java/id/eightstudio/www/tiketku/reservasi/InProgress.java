@@ -19,15 +19,19 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.eightstudio.www.tiketku.R;
@@ -42,7 +46,8 @@ public class InProgress extends Fragment {
 
     @BindView(R.id.listTransaksi)
     ListView listViewTransaksiInProgress;
-    @BindView(R.id.swipeRefreshInProgress) SwipeRefreshLayout swipeRefreshInProgress;
+    @BindView(R.id.swipeRefreshInProgress)
+    SwipeRefreshLayout swipeRefreshInProgress;
 
     public static InProgress newInstance() {
         return new InProgress();
@@ -80,7 +85,7 @@ public class InProgress extends Fragment {
     }
 
     public void onItemsLoadComplete(View view) {
-        if ( statusResponse == false ) {
+        if (statusResponse == false) {
             Snackbar.make(view, "Tidak Ada Data", Snackbar.LENGTH_SHORT).show();
         } else {
             Snackbar.make(view, "Up to Date", Snackbar.LENGTH_SHORT).show();
@@ -140,10 +145,10 @@ public class InProgress extends Fragment {
     }
 
     //Adapter untuk data Transaksi In Progress
-    private void Adapter(View view){
-        SimpleAdapter simpleAdapter = new SimpleAdapter(view.getContext() , jsonDataGet, R.layout.model_data_inprogress,
-                new String[] { "namaPesawat", "jamKeberangkatan", "jamTiba"},
-                new int[] {R.id.txtNamaPesawatInProgress, R.id.txtJamBerangkat, R.id.txtJamTiba});
+    private void Adapter(View view) {
+        SimpleAdapter simpleAdapter = new SimpleAdapter(view.getContext(), jsonDataGet, R.layout.model_data_inprogress,
+                new String[]{"namaPesawat", "jamKeberangkatan", "jamTiba"},
+                new int[]{R.id.txtNamaPesawatInProgress, R.id.txtJamBerangkat, R.id.txtJamTiba});
 
         listViewTransaksiInProgress.setAdapter(simpleAdapter);
 

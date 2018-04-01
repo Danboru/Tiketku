@@ -12,16 +12,19 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.JSONObjectRequestListener;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.eightstudio.www.tiketku.R;
@@ -144,7 +147,7 @@ public class TabThree extends Fragment implements View.OnClickListener {
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
-            public void onResponse(JSONObject response) {
+                    public void onResponse(JSONObject response) {
                         // do anything with response
                         Log.d("response", response.toString());
 

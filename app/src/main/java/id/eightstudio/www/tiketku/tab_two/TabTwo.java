@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.eightstudio.www.tiketku.R;
@@ -22,8 +23,11 @@ public class TabTwo extends Fragment {
         return new TabTwo();
     }
 
-    @BindView(R.id.bottomMenuReservasi) BottomNavigationView bottomNavigationViewReservasi;
-    @Nullable @Override
+    @BindView(R.id.bottomMenuReservasi)
+    BottomNavigationView bottomNavigationViewReservasi;
+
+    @Nullable
+    @Override
     public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = LayoutInflater.from(container.getContext()).inflate(R.layout.activity_tab_two, container, false);
         ButterKnife.bind(this, view);
@@ -34,11 +38,11 @@ public class TabTwo extends Fragment {
 
                 Fragment fragmentSelected = null;
                 switch (item.getItemId()) {
-                    case R.id.history : {
+                    case R.id.history: {
                         fragmentSelected = History.newInstance();
                         break;
                     }
-                    default : {
+                    default: {
                         fragmentSelected = InProgress.newInstance();
                         break;
                     }

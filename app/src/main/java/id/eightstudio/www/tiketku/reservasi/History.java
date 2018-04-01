@@ -10,8 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.eightstudio.www.tiketku.R;
@@ -24,7 +26,8 @@ public class History extends Fragment {
         return new History();
     }
 
-    @BindView(R.id.listDataHistory) ListView listViewHistory;
+    @BindView(R.id.listDataHistory)
+    ListView listViewHistory;
 
     @Nullable
     @Override

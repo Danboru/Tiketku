@@ -80,7 +80,7 @@ public class PencarianPenerbangan extends AppCompatActivity {
             public void onRefresh() {
                 jsonDataGet.clear();
 
-                getAllDataPenerbanganBySearch("1", "3");
+                getAllDataPenerbanganBySearch(parentLayout, "1", "3");
                 Adapter();
 
                 onItemsLoadComplete(parentLayout);
@@ -88,12 +88,14 @@ public class PencarianPenerbangan extends AppCompatActivity {
         });
 
         //Get All data
-        getAllDataPenerbanganBySearch("1", "3");
+        getAllDataPenerbanganBySearch(parentLayout, "1", "3");
 
-    };
+    }
+
+    ;
 
     public void onItemsLoadComplete(View view) {
-        if ( statusReesponse == false ) {
+        if (statusReesponse == false) {
             Snackbar.make(view, "Tidak Ada Data", Snackbar.LENGTH_SHORT).show();
         } else {
             Snackbar.make(view, "Up to Date", Snackbar.LENGTH_SHORT).show();
@@ -103,7 +105,7 @@ public class PencarianPenerbangan extends AppCompatActivity {
     }
 
     //GET Data dari database melalui JSON
-    public void getAllDataPenerbanganBySearch(String idBandaraTujuan, String idBandaraDestinasi) {
+    public void getAllDataPenerbanganBySearch(final View view, String idBandaraTujuan, String idBandaraDestinasi) {
         AndroidNetworking.post(UriConfig.host + "/672014113v120180401/penerbangan/filter_penerbangan.php")
                 .setPriority(Priority.MEDIUM)
                 .addBodyParameter("bandaraTujuan", idBandaraTujuan)
@@ -130,6 +132,8 @@ public class PencarianPenerbangan extends AppCompatActivity {
                                     map.put("tanggalPenerbangan", responses.optString("tanggalPenerbangan"));
                                     map.put("jamBerangkat", responses.optString("jamBerangkat"));
                                     map.put("jamTiba", responses.optString("jamTiba"));
+                                    map.put("banAsal", responses.optString("From"));
+                                    map.put("banTujuan", responses.optString("To"));
 
                                     jsonDataGet.add(map);
                                 }
@@ -138,7 +142,8 @@ public class PencarianPenerbangan extends AppCompatActivity {
                                 Adapter();
 
                             } else {
-                                Toast.makeText(PencarianPenerbangan.this, "Data Tidak Di temukan", Toast.LENGTH_SHORT).show();
+                                Snackbar.make(view, "Tidak Ada Data", Snackbar.LENGTH_SHORT).show();
+                                Log.d(TAG, "onError: " + "Data Tidak Di temukan");
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -190,14 +195,14 @@ public class PencarianPenerbangan extends AppCompatActivity {
         buttonBooking.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bookingPeesawat(jsonDataGet.get(posisi).get("idPenerbangan"));
+                bookingPesawat(jsonDataGet.get(posisi).get("idPenerbangan"));
             }
         });
 
         dialog.show();
     }
 
-    public void bookingPeesawat(String idPenerbangan) {
+    public void bookingPesawat(String idPenerbangan) {
 
         AndroidNetworking.post(UriConfig.host + "/672014113v120180401/transaksi/add_transaksi.php")
                 .setPriority(Priority.MEDIUM)

@@ -17,10 +17,12 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import id.eightstudio.www.tiketku.R;
@@ -30,10 +32,14 @@ import id.eightstudio.www.tiketku.utils.CurrentDate;
 
 public class TabOne extends Fragment {
 
-    @BindView(R.id.spinnerBandaraAsal) Spinner spinnerBadaraAsal;
-    @BindView(R.id.spinnerBandaraTujuan) Spinner spinnerBadaraTujuan;
-    @BindView(R.id.btnCariRutePenerbangan) Button btnCariRutePenerbangan;
-    @BindView(R.id.edtTanggalBerangkat) EditText edtTanggalBerangkat;
+    @BindView(R.id.spinnerBandaraAsal)
+    Spinner spinnerBadaraAsal;
+    @BindView(R.id.spinnerBandaraTujuan)
+    Spinner spinnerBadaraTujuan;
+    @BindView(R.id.btnCariRutePenerbangan)
+    Button btnCariRutePenerbangan;
+    @BindView(R.id.edtTanggalBerangkat)
+    EditText edtTanggalBerangkat;
     @BindView(R.id.ibDatePicker)
     ImageButton ibDatePicker;
 
@@ -65,12 +71,12 @@ public class TabOne extends Fragment {
                     public void onDateSet(DatePicker view, int year, int month_of_year, int day_of_month) {
                         NumberFormat numberFormat = new DecimalFormat("00");
 
-                        dataKeberangkatan = year  + "-" + numberFormat.format(month_of_year + 1) + "-" +
+                        dataKeberangkatan = year + "-" + numberFormat.format(month_of_year + 1) + "-" +
                                 numberFormat.format(day_of_month);
                         edtTanggalBerangkat.setText(dataKeberangkatan);
 
                     }
-                }, CurrentDate.currentYear , CurrentDate.currentMonth, CurrentDate.currentDay);
+                }, CurrentDate.currentYear, CurrentDate.currentMonth, CurrentDate.currentDay);
                 datePickerDialog.show();
             }
         });
@@ -78,9 +84,6 @@ public class TabOne extends Fragment {
         btnCariRutePenerbangan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(), dataKeberangkatan +
-                        " : Dari " + bandaraAsal + " Ke " + bandaraTujuan , Toast.LENGTH_SHORT).show();
-
                 Intent intentHasilPencarian = new Intent(getContext(), PencarianPenerbangan.class);
 
                 //Put data extra
@@ -148,6 +151,6 @@ public class TabOne extends Fragment {
 
             }
         });
-        }
+    }
 
 }
