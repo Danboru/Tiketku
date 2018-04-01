@@ -35,8 +35,7 @@ public class InProgress extends Fragment {
 
     private static final String TAG = "InProgress";
     ArrayList<HashMap<String, String>> jsonDataGet = new ArrayList<>();
-    public static String LINK, transaksi_id, status, jumlah, keterangan, tanggal, tanggal2;
-
+    public static String transaksi_id, status, jumlah, keterangan, tanggal, tanggal2;
 
     public static InProgress newInstance() {
         return new InProgress();
@@ -59,7 +58,7 @@ public class InProgress extends Fragment {
     //GET Data dari Database melalui JSON
     public void getAllDataTransaksi(String idUser, final View view) {
 
-        AndroidNetworking.post(UriConfig.host + "/672014113v120180401/transaksi/list.php?idUser=" + idUser)
+        AndroidNetworking.post(UriConfig.host + "/672014113v120180401/transaksi/list_transaksi.php?idUser=" + idUser)
                 .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
@@ -104,6 +103,7 @@ public class InProgress extends Fragment {
                 });
     }
 
+    //Adapter untuk data Transaksi In Progress
     private void Adapter(View view){
         SimpleAdapter simpleAdapter = new SimpleAdapter(view.getContext() , jsonDataGet, R.layout.model_data,
                 new String[] { "idTransaksi", "namaUser", "jumlahTiket", "jamKeberangkatan", "jamTiba", "namaPesawat"},
