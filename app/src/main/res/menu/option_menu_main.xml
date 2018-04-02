@@ -15,9 +15,9 @@
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/menuTiga"
+        android:id="@+id/aboutApp"
         android:icon="@mipmap/ic_launcher_round"
-        android:title="Tester"
+        android:title="About"
         app:showAsAction="never" />
 
 </menu>

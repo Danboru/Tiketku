@@ -49,6 +49,8 @@ public class TabOne extends Fragment {
     Spinner spinnerBadaraTujuan;
     @BindView(R.id.btnCariRutePenerbangan)
     Button btnCariRutePenerbangan;
+    @BindView(R.id.edtPassengger)
+    EditText edtPassengger;
     @BindView(R.id.edtTanggalBerangkat)
     EditText edtTanggalBerangkat;
     @BindView(R.id.ibDatePicker)
@@ -61,7 +63,7 @@ public class TabOne extends Fragment {
     View view;
 
     private DatePickerDialog datePickerDialog;
-    String dataKeberangkatan, bandaraAsal, bandaraTujuan;
+    String dataKeberangkatan, bandaraAsal, bandaraTujuan, jumlahTiket;
     public static final String KEY_EXTRA = "id.eightstudio.www.tiketku.tab_one";
 
     public static TabOne newInstance() {
@@ -106,10 +108,11 @@ public class TabOne extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intentHasilPencarian = new Intent(getContext(), PencarianPenerbangan.class);
+                jumlahTiket = edtPassengger.getText().toString();
 
                 //Put data extra
-                intentHasilPencarian.putExtra(KEY_EXTRA, dataKeberangkatan + "/" + bandaraAsal + "/" + bandaraTujuan);
-                Log.d(TAG, "onClick: " + dataKeberangkatan + "/" + bandaraAsal + "/" + bandaraTujuan);
+                intentHasilPencarian.putExtra(KEY_EXTRA, dataKeberangkatan + "/" + bandaraAsal + "/" + bandaraTujuan + "/" + jumlahTiket);
+                Log.d(TAG, "onClick: " + dataKeberangkatan + "/" + bandaraAsal + "/" + bandaraTujuan + "/" + "1");
                 startActivity(intentHasilPencarian);
             }
         });
@@ -117,8 +120,8 @@ public class TabOne extends Fragment {
         return view;
     }
 
+    //Set data ke spinner
     public void originBandara(View view) {
-
         ArrayAdapter<String> adapterOrigin = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, categories);
         adapterOrigin.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerBadaraAsal.setAdapter(adapterOrigin);
@@ -138,6 +141,7 @@ public class TabOne extends Fragment {
         });
     }
 
+    //Set data ke spinner
     public void destinationBandara(View view) {
         ArrayAdapter<String> adapterDestination = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_spinner_item, categories);
         adapterDestination.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -157,6 +161,7 @@ public class TabOne extends Fragment {
         });
     }
 
+    //Generateee data from API
     public void generateDataBandara() {
         getDataBandara("Tujuan");
         for (int i = 0; i < jsonDataBandara.size(); i++) {
@@ -169,6 +174,7 @@ public class TabOne extends Fragment {
         }
     }
 
+    //GET data from API
     public void getDataBandara(String response) {
         AndroidNetworking.post(UriConfig.host + "/672014113v120180401/bandara/list_bandara" + response + ".php")
                 .setPriority(Priority.MEDIUM)

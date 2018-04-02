@@ -20,6 +20,7 @@ import id.eightstudio.www.tiketku.R;
 
 public class History extends Fragment {
 
+    //Data Dummy
     List<String> stringData = new ArrayList<>();
 
     public static History newInstance() {

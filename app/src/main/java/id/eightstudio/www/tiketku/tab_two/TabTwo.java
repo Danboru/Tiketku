@@ -18,7 +18,6 @@ import id.eightstudio.www.tiketku.reservasi.History;
 import id.eightstudio.www.tiketku.reservasi.InProgress;
 
 public class TabTwo extends Fragment {
-
     public static TabTwo newInstance() {
         return new TabTwo();
     }

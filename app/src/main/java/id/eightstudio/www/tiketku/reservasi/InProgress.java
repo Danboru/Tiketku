@@ -94,7 +94,7 @@ public class InProgress extends Fragment {
         swipeRefreshInProgress.setRefreshing(false);
     }
 
-    //GET Data dari Database melalui JSON
+    //GET Data dari Database melalui API
     public void getAllDataTransaksi(String idUser, final View view) {
 
         AndroidNetworking.post(UriConfig.host + "/672014113v120180401/transaksi/list_transaksi.php?idUser=" + idUser)

@@ -38,7 +38,7 @@ import id.eightstudio.www.tiketku.utils.UriConfig;
 public class PencarianPenerbangan extends AppCompatActivity {
 
     private static final String TAG = "PencarianPenerbangan";
-    private String dataTanggalPencarian, dataBandaraAsal, dataBandaraTujuan, dataSetStringExtra;
+    private String dataTanggalPencarian, dataBandaraAsal, dataBandaraTujuan, dataSetStringExtra, dataJumlahPassengger;
 
     ArrayList<HashMap<String, String>> jsonDataGet = new ArrayList<>();
 
@@ -66,6 +66,7 @@ public class PencarianPenerbangan extends AppCompatActivity {
         dataTanggalPencarian = temp[0];
         dataBandaraAsal = temp[1];
         dataBandaraTujuan = temp[2];
+        dataJumlahPassengger = temp[3];
         Log.d(TAG, "onCreate: " + "Berangkat tanggal " + dataTanggalPencarian + " Dari " + dataBandaraAsal + " Ke " + dataBandaraTujuan);
 
         //Set color
@@ -90,10 +91,9 @@ public class PencarianPenerbangan extends AppCompatActivity {
         //Get All data
         getAllDataPenerbanganBySearch(parentLayout, dataBandaraAsal, dataBandaraTujuan);
 
-    }
+    };
 
-    ;
-
+    //Saat dataSudah di get
     public void onItemsLoadComplete(View view) {
         if (statusReesponse == false) {
             Snackbar.make(view, "Tidak Ada Data", Snackbar.LENGTH_SHORT).show();
@@ -104,7 +104,7 @@ public class PencarianPenerbangan extends AppCompatActivity {
         swipeRefreshLayoutPencarian.setRefreshing(false);
     }
 
-    //GET Data dari database melalui JSON
+    //GET Data dari database melalui API
     public void getAllDataPenerbanganBySearch(final View view, String idBandaraDestinasi, String idBandaraOrigin) {
         AndroidNetworking.post(UriConfig.host + "/672014113v120180401/penerbangan/filter_penerbangan.php")
                 .setPriority(Priority.MEDIUM)
@@ -159,6 +159,7 @@ public class PencarianPenerbangan extends AppCompatActivity {
     }
 
 
+    //Adapter untuk menampilkan data
     private void Adapter() {
         SimpleAdapter simpleAdapter = new SimpleAdapter(PencarianPenerbangan.this, jsonDataGet, R.layout.model_data_penerbangan,
                 new String[]{"namaPesawat", "harga", "From", "To", "jamBerangkat", "jamTiba"},
@@ -178,6 +179,7 @@ public class PencarianPenerbangan extends AppCompatActivity {
 
     }
 
+    //Menampilkan detail hasil pencarian
     private void showPencarianDetail(final int posisi, final Context context) {
         final Dialog dialog = new Dialog(context);
 
@@ -203,13 +205,13 @@ public class PencarianPenerbangan extends AppCompatActivity {
         dialog.show();
     }
 
+    //Fungsi booking pesawat
     public void bookingPesawat(String idPenerbangan) {
-
         AndroidNetworking.post(UriConfig.host + "/672014113v120180401/transaksi/add_transaksi.php")
                 .setPriority(Priority.MEDIUM)
                 .addBodyParameter("idPenerbangan", idPenerbangan)
                 .addBodyParameter("idUser", "14")
-                .addBodyParameter("jumlahTiket", "14")
+                .addBodyParameter("jumlahTiket", dataJumlahPassengger)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override

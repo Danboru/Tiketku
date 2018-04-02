@@ -67,6 +67,7 @@ public class TabThree extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    //GET data from API
     public void getDataUser(String emailUser, final View view) {
         AndroidNetworking.post(UriConfig.host + "/672014113v120180401/user/info.php?emailUser=" + emailUser)
                 .setPriority(Priority.MEDIUM)
